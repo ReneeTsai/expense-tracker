@@ -1,2 +1,7 @@
-/node_modules
-.evn
+# npm
+node_modules
+*.log
+*.gz
+
+# dotenv
+.env
