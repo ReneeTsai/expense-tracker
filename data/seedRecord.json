@@ -2,26 +2,31 @@
   {
     "name": "房租",
     "category": "家居物業",
-    "amount": 25000
+    "amount": 25000,
+    "date": "2019/04/01"
   },
   {
     "name": "火車",
     "category": "交通出行",
-    "amount": 51
+    "amount": 51,
+    "date": "2019/04/13"
   },
   {
     "name": "電影",
     "category": "休閒娛樂",
-    "amount": 259
+    "amount": 259,
+    "date": "2019/04/13"
   },
   {
     "name": "早餐",
     "category": "餐飲食品",
-    "amount": 85
+    "amount": 85,
+    "date": "2019/04/13"
   },
   {
     "name": "書",
     "category": "其他",
-    "amount": 399
+    "amount": 399,
+    "date": "2019/04/13"
   }
 ]
