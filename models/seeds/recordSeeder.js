@@ -1,10 +1,18 @@
 const Record = require("../record"); // 載入 todo model
+const User = require("../user");
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 const SEED_RECORD = require("../../data/seedRecord.json");
 const db = require("../../config/mongoose");
+const bcrypt = require("bcryptjs");
 const category = require("../category");
+const SEED_USER = {
+  name: "廣志",
+  email: "user1@example.com",
+  password: "123456789",
+};
+
 db.on("error", () => {
   console.log("mongodb error!");
 });
@@ -28,10 +36,18 @@ db.once("open", async () => {
         };
       }
     });
-
-    // 使用 create 方法將資料寫入資料庫
-    await Record.create(records);
-    console.log("done");
+    // create seed data
+    const hash = await bcrypt.hash(SEED_USER.password, await bcrypt.genSalt(10));
+    const user = await User.create({
+      name: SEED_USER.name,
+      email: SEED_USER.email,
+      password: hash,
+    });
+    for (const record of records) {
+      record.userId = user._id;
+      await Record.create(record);
+      console.log("done");
+    }
   } catch (error) {
     console.log(error);
   } finally {

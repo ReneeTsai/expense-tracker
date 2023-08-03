@@ -3,8 +3,8 @@ const LocalStrategy = require("passport-local").Strategy;
 //需要去尋找資料庫
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
-// const FacebookStrategy = require("passport-facebook").Strategy;
-// const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const FacebookStrategy = require("passport-facebook").Strategy;
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 //-----------------
 if (process.env.NODE_ENV !== "production") {
@@ -53,64 +53,64 @@ module.exports = (app) => {
   });
 };
 
-// //facebool login
-// passport.use(
-//   new FacebookStrategy(
-//     {
-//       clientID: process.env.FACEBOOK_ID,
-//       clientSecret: process.env.FACEBOOK_SECRET,
-//       callbackURL: process.env.FACEBOOK_CALLBACK,
-//       profileFields: ["email", "displayName"],
-//     },
-//     (accessToken, refreshToken, profile, done) => {
-//       const { name, email } = profile._json;
-//       User.findOne({ email }).then((user) => {
-//         if (user) return done(null, user);
-//         const randomPassword = Math.random().toString(36).slice(-8);
-//         bcrypt
-//           .genSalt(10)
-//           .then((salt) => bcrypt.hash(randomPassword, salt))
-//           .then((hash) =>
-//             User.create({
-//               name,
-//               email,
-//               password: hash,
-//             })
-//           )
-//           .then((user) => done(null, user))
-//           .catch((err) => done(err, null));
-//       });
-//     }
-//   )
-// );
+//facebool login
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: process.env.FACEBOOK_ID,
+      clientSecret: process.env.FACEBOOK_SECRET,
+      callbackURL: process.env.FACEBOOK_CALLBACK,
+      profileFields: ["email", "displayName"],
+    },
+    (accessToken, refreshToken, profile, done) => {
+      const { name, email } = profile._json;
+      User.findOne({ email }).then((user) => {
+        if (user) return done(null, user);
+        const randomPassword = Math.random().toString(36).slice(-8);
+        bcrypt
+          .genSalt(10)
+          .then((salt) => bcrypt.hash(randomPassword, salt))
+          .then((hash) =>
+            User.create({
+              name,
+              email,
+              password: hash,
+            })
+          )
+          .then((user) => done(null, user))
+          .catch((err) => done(err, null));
+      });
+    }
+  )
+);
 
-// //google login
-// passport.use(
-//   new GoogleStrategy(
-//     {
-//       clientID: process.env.GOOGLE_CLIENT_ID,
-//       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-//       callbackURL: process.env.GOOGLE_CALLBACK,
-//       profileFields: ["email", "displayName"],
-//     },
-//     (accessToken, refreshToken, profile, done) => {
-//       const { name, email } = profile._json;
-//       User.findOne({ email }).then((user) => {
-//         if (user) return done(null, user);
-//         const randomPassword = Math.random().toString(36).slice(-8);
-//         bcrypt
-//           .genSalt(10)
-//           .then((salt) => bcrypt.hash(randomPassword, salt))
-//           .then((hash) =>
-//             User.create({
-//               name,
-//               email,
-//               password: hash,
-//             })
-//           )
-//           .then((user) => done(null, user))
-//           .catch((err) => done(err, null));
-//       });
-//     }
-//   )
-// );
+//google login
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: process.env.GOOGLE_CALLBACK,
+      profileFields: ["email", "displayName"],
+    },
+    (accessToken, refreshToken, profile, done) => {
+      const { name, email } = profile._json;
+      User.findOne({ email }).then((user) => {
+        if (user) return done(null, user);
+        const randomPassword = Math.random().toString(36).slice(-8);
+        bcrypt
+          .genSalt(10)
+          .then((salt) => bcrypt.hash(randomPassword, salt))
+          .then((hash) =>
+            User.create({
+              name,
+              email,
+              password: hash,
+            })
+          )
+          .then((user) => done(null, user))
+          .catch((err) => done(err, null));
+      });
+    }
+  )
+);
