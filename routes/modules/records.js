@@ -9,7 +9,9 @@ router.get("/new", async (req, res) => {
 router.post("/new", async (req, res) => {
   try {
     const { name, date, categoryId, amount } = req.body;
+    const userId = req.user._id;
     return Record.create({
+      userId,
       name,
       date,
       categoryId,
@@ -26,7 +28,8 @@ router.get("/:id/edit", async (req, res) => {
   try {
     const categories = await Category.find().lean();
     const _id = req.params.id;
-    const record = await Record.findOne({ _id }).lean();
+    const userId = req.user._id;
+    const record = await Record.findOne({ _id, userId }).lean();
     const category = await Category.findOne({ _id: record.categoryId }).lean();
     record.category = category.name;
     record.date = new Date(record.date).toISOString().slice(0, 10);
@@ -35,12 +38,13 @@ router.get("/:id/edit", async (req, res) => {
     console.log(err);
   }
 });
-router.post("/:id/edit", async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const _id = req.params.id;
+    const userId = req.user._id;
     const { name, date, categoryId, amount } = req.body;
     return Record.findOneAndUpdate(
-      { _id },
+      { _id, userId },
       {
         name,
         date,
@@ -49,15 +53,17 @@ router.post("/:id/edit", async (req, res) => {
       }
     )
       .then((updatedRecord) => res.redirect(`/records/${updatedRecord._id}/edit`))
+      .then(req.flash("success_msg", "編輯成功!"))
       .catch((err) => console.log(err));
   } catch (err) {
     console.log(err);
   }
 });
 //刪除支出
-router.post("/:id/delete", (req, res) => {
+router.delete("/:id", (req, res) => {
   const _id = req.params.id;
-  return Record.findByIdAndDelete(_id)
+  const userId = req.user._id;
+  return Record.findByIdAndDelete(_id, userId)
     .then(() => res.redirect("/"))
     .catch((error) => console.log(error));
 });

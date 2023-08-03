@@ -12,12 +12,17 @@
   "author": "rachel T",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
+    "connect-flash": "^0.1.1",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-handlebars": "^4.0.2",
+    "express-session": "^1.17.3",
     "handlebars-dateformat": "^1.1.3",
     "method-override": "^3.0.0",
-    "mongoose": "^7.4.1"
+    "mongoose": "^7.4.1",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0"
   }
 }

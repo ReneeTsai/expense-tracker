@@ -40,7 +40,7 @@
               href="./records/{{this._id}}/edit"
               class="btn btn-outline-primary justify-content-center align-items-center mx-2"
             >edit</a>
-            <form action="./records/{{this._id}}/delete" method="POST">
+            <form action="./records/{{this._id}}?_method=DELETE" method="POST">
               <button type="submit" class="btn btn-outline-danger mt-3">delete</button>
             </form>
           </div>
@@ -51,4 +51,3 @@
     {{/each}}
   </ul>
 </div>
-

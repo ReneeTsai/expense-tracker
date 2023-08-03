@@ -3,8 +3,11 @@ const express = require("express");
 const router = express.Router();
 const home = require("./modules/home");
 const records = require("./modules/records");
-// 準備引入路由模組
-router.use("/", home);
-router.use("/records", records);
+const users = require("./modules/users");
+const { authenticator } = require("../middleware/auth"); // 掛載 middleware
+
+router.use("/records", authenticator, records);
+router.use("/users", users);
+router.use("/", authenticator, home);
 // 匯出路由器
 module.exports = router;
